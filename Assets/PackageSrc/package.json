@@ -1,0 +1,22 @@
+{
+  "name": "com.vovkasu.localized-strings-finder",
+  "version": "0.0.0",
+  "displayName": "Localized strings Finder",
+  "description": "Editor tool for browsing and managing localized strings. Easily find unused localization entries and remove them to keep your project clean.",
+  "unity": "2022.3",
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.localization": "1.5.3"
+  },
+  "keywords": [
+    "tool",
+    "localization",
+    "manageAssets",
+    "cleanUp"
+  ],
+  "author": {
+    "name": "Surov Volodymyr",
+    "email": "vovkasu@gmail.com"
+  },
+  "samples": []  
+}  
