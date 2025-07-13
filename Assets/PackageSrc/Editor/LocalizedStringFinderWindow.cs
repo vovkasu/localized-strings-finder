@@ -102,7 +102,11 @@ namespace LocalizedStringsFinder.Editor
         {
             var table = LocalizationEditorSettings.GetStringTableCollection(row.TableReference);
             table.RemoveEntry(row.KeyId);
-            EditorUtility.SetDirty(table);
+            foreach (var tableStringTable in table.StringTables)
+            {
+                EditorUtility.SetDirty(tableStringTable);
+            }
+            
             Debug.Log($"Del:{row.Key}");
         }
 
