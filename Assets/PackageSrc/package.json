@@ -6,10 +6,12 @@
   "unity": "2022.3",
   "license": "MIT",
   "dependencies": {
-    "com.unity.localization": "1.5.3"
+    "com.unity.localization": "1.5.3",
+    "com.unity.editorcoroutines": "1.0.0"
   },
   "keywords": [
     "tool",
+    "editorTool",
     "localization",
     "manageAssets",
     "cleanUp"
