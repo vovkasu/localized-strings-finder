@@ -51,9 +51,8 @@ namespace LocalizedStringsFinder.Editor
         {
             var enumerable = GetValue(source, name) as System.Collections.IEnumerable;
             if (enumerable == null) return null;
-
             var enumerator = enumerable.GetEnumerator();
-            for (int i = 0; i <= index; i++)
+            for (var i = 0; i <= index; i++)
             {
                 if (!enumerator.MoveNext()) return null;
             }

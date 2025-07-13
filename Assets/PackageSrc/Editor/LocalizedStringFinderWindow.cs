@@ -124,7 +124,7 @@ namespace LocalizedStringsFinder.Editor
         private IEnumerator SearchCoroutine()
         {
             List<LocalizedStringReference> output = new();
-            IEnumerator<float> enumerator = LocalizedStringFinder.FindLocalizedStringReferencesInternal(output);
+            using var enumerator = LocalizedStringFinder.FindLocalizedStringReferencesInternal(output);
             var updatePeriod = 10;
             var iterations = updatePeriod;
             while (enumerator.MoveNext())
@@ -144,7 +144,7 @@ namespace LocalizedStringsFinder.Editor
             yield return null;
 
             _progressBar.value = 1;
-            _progressBar.title = $"Done. Found {output.Count} entries.";
+            _progressBar.title = $"Done. Found {output.Count} uses.";
 
             _searchButton.SetEnabled(true);
             var allLocalizedStrings = LocalizationTableUtils.GetAllLocalizedStringsFromTables();

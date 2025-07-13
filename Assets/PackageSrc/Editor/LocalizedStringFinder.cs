@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
-using UnityEditor.Localization;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -37,8 +37,6 @@ namespace LocalizedStringsFinder.Editor
 
         private static bool IsMatch(LocalizedString a, LocalizedString b)
         {
-            // return a.TableEntryReference.Equals( b.TableEntryReference);
-
             if (a.TableEntryReference.ReferenceType != b.TableEntryReference.ReferenceType)
                 return false;
 
@@ -55,12 +53,14 @@ namespace LocalizedStringsFinder.Editor
 
         public static IEnumerator<float> FindLocalizedStringReferencesInternal(List<LocalizedStringReference> results)
         {
-            var sceneGuids = AssetDatabase.FindAssets("t:Scene", new[] { "Assets" });
-            var assetGuids = AssetDatabase.FindAssets("t:Object");
+            var sceneGuids = AssetDatabase.FindAssets("t:Scene", new[] { "Assets" }).ToList();
+            var assetGuids = AssetDatabase.FindAssets("t:Object", new[] { "Assets" })
+                .ToList();
+            assetGuids.RemoveAll(sceneGuids.Contains);
 
-            float allCount = sceneGuids.Length + assetGuids.Length;
+            float allCount = sceneGuids.Count + assetGuids.Count;
             // Search all scenes
-            for (var i = 0; i < sceneGuids.Length; i++)
+            for (var i = 0; i < sceneGuids.Count; i++)
             {
                 var sceneGuid = sceneGuids[i];
                 var scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
@@ -76,7 +76,7 @@ namespace LocalizedStringsFinder.Editor
 
             // Search other assets
 
-            for (var i = 0; i < assetGuids.Length; i++)
+            for (var i = 0; i < assetGuids.Count; i++)
             {
                 var assetGuid = assetGuids[i];
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
@@ -87,7 +87,7 @@ namespace LocalizedStringsFinder.Editor
                     if (prefab != null)
                     {
                         FindLocalizedStringInGameObject(prefab, assetPath, AssetObjType.Prefab, results);
-                        yield return (i + sceneGuids.Length) / allCount;
+                        yield return (i + sceneGuids.Count) / allCount;
                     }
                 }
                 else // Search other scriptable objects
@@ -96,7 +96,7 @@ namespace LocalizedStringsFinder.Editor
                     if (asset != null && !(asset is MonoScript))
                     {
                         FindLocalizedStringInAsset(asset, assetPath, results);
-                        yield return (i + sceneGuids.Length) / allCount;
+                        yield return (i + sceneGuids.Count) / allCount;
                     }
                 }
             }
@@ -127,7 +127,7 @@ namespace LocalizedStringsFinder.Editor
         {
             List<LocalizedStringReference> results = new();
 
-            using (SerializedProperty prop = so.GetIterator())
+            using (var prop = so.GetIterator())
             {
                 while (prop.NextVisible(true))
                 {
@@ -155,52 +155,6 @@ namespace LocalizedStringsFinder.Editor
                 reference.AssetType = AssetObjType.Other;
             }
             results.AddRange(references);
-        }
-    }
-
-    public class LocalizedStringPair
-    {
-        public LocalizedString WithKeyId;
-        public LocalizedString WithKeyName;
-    }
-
-    public static class LocalizationTableUtils
-    {
-        public static List<LocalizedStringPair> GetAllLocalizedStringsFromTables()
-        {
-            var result = new List<LocalizedStringPair>();
-
-            var stringTableCollections = LocalizationEditorSettings.GetStringTableCollections();
-
-            foreach (var collection in stringTableCollections)
-            {
-                var tableName = collection.TableCollectionName;
-
-                foreach (var entry in collection.SharedData.Entries)
-                {
-                    if (string.IsNullOrEmpty(entry.Key))
-                        continue;
-
-                    var withKeyId = new LocalizedString
-                    {
-                        TableReference = tableName,
-                        TableEntryReference = entry.Id
-                    };
-                    var withKeyName = new LocalizedString
-                    {
-                        TableReference = tableName,
-                        TableEntryReference = entry.Key
-                    };
-
-                    result.Add(new LocalizedStringPair
-                    {
-                        WithKeyId = withKeyId,
-                        WithKeyName = withKeyName
-                    });
-                }
-            }
-
-            return result;
         }
     }
 }
