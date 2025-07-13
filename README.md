@@ -1,0 +1,1 @@
+# localized-strings-finder
