@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+  <ui:VisualElement style="padding: 10px;">
+    <ui:Button name="search-button" text="Search" />
+    <ui:ProgressBar name="progress-bar" title="" low-value="0" high-value="1" />
+    <ui:MultiColumnListView name="results-listview" style="margin-top: 10px; height: 300px;" />
+  </ui:VisualElement>
+</ui:UXML>
