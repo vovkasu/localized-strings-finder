@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 1410650693}
   - component: {fileID: 1410650692}
   m_Layer: 5
-  m_Name: Button No
+  m_Name: Button Cancel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Cancel
 --- !u!222 &1766823112
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:63ff78e129562c74283b0b86c22c48ec
     m_TableEntryReference:
-      m_KeyId: 48420503552
+      m_KeyId: 80976691200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
